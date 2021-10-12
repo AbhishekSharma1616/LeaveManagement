@@ -1,0 +1,113 @@
+﻿@model IEnumerable<prototype_four.Models.Leave>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Leave Management</h2>
+@if (User.IsInRole("TeamLeader"))
+{
+
+
+    <p>You are admin</p>
+}
+else
+{
+    <p>You are an Employee</p>
+    <p>
+        @Html.ActionLink("Apply Leave", "AddLeave", "Leave", null, new { @class = "btn btn-primary" })
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Starting and Ending Date
+        </th>
+        <th>
+            Type Of Leave
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var leaves in Model)
+    {
+
+<tr>
+    <td>
+        @leaves.Useremail
+    </td>
+
+    <td>
+        @leaves.LeaveDescription
+    </td>
+
+    <td>
+        @leaves.fromTo
+    </td>
+    <td>
+        @leaves.LeaveType.LeaveTypeName
+    </td>
+    @{ if (leaves.Checked == 0)
+        {
+            <td>pending</td>
+        }
+        else if (leaves.Checked == 1)
+        {
+            <td>Approved</td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = leaves.LeaveId })
+            </td>
+        }
+        else
+        {
+            <td>Declined</td>
+            <td>
+                <button class="btn btn-default">
+                    @Html.ActionLink("Delete", "Delete", new { id = leaves.LeaveId })
+                </button>
+            </td>
+        } }
+
+    @{ if (leaves.Checked == 0)
+        {
+            if (User.IsInRole("TeamLeader"))
+            {
+                <td>
+                    <button class="btn btn-default">
+                        @Html.ActionLink("Approve", "Approve", new { id = leaves.LeaveId })
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-default">
+                        @Html.ActionLink("Decline", "Decline", new { id = leaves.LeaveId })
+                    </button>
+                </td>
+
+            }
+            else
+            {
+                <td>
+                    <button class="btn btn-default">
+                        @Html.ActionLink("Withdraw", "Delete", new { id = leaves.LeaveId })
+                    </button>
+                </td>
+            }
+
+        }
+    }
+</tr>
+    }
+
+</table>
+
+

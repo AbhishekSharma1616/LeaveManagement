@@ -1,0 +1,52 @@
+﻿@model IEnumerable<prototype_four.Models.Work>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Task Details</h2>
+<hr />
+
+@if (User.IsInRole("TeamLeader"))
+{
+    <button class="btn btn-default">@Html.ActionLink("Add Tasks", "AddWorks", "Work")</button>
+}
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.WorkName)</th>
+                <th>@Html.DisplayNameFor(m => m.Description)</th>
+                <th>@Html.DisplayNameFor(m => m.TeamId)</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @foreach (var works in Model)
+            {
+                <tr>
+                    <td>@works.WorkName</td>
+                    <td>@works.Description</td>
+                    <td>@works.TeamId</td>
+
+                    <td>@works.TaskTeam.TeamName</td>
+                    @if (User.IsInRole("TeamLeader"))
+                    {
+                        
+                        <td>
+                            <button class="btn btn-default">
+                                @Html.ActionLink("Delete", "Delete", new { id = works.WorkId })
+                            </button>
+                        </td>
+                    }
+                    @* <td>@Html.ActionLink("Edit", "Edit", new { id = works.WorkId })</@*td>*@
+                    @* <td>@Html.ActionLink("Delete", "Delete", new { id = works.WorkId })</td>*@
+
+
+                </tr>
+
+            }
+        </tbody>
+    </table>

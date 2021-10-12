@@ -1,0 +1,34 @@
+﻿@model prototype_four.Views.ViewModels.LeaveViewModel
+@{
+    ViewBag.Title = "LeaveForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>LeaveForm</h2>
+@using (@Html.BeginForm("Save", "Leave"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Leave.Useremail)
+        @Html.TextBoxFor(m => m.Leave.Useremail, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Leave.LeaveDescription)
+        @Html.TextBoxFor(m => m.Leave.LeaveDescription, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Leave.fromTo)
+        @Html.TextBoxFor(m => m.Leave.fromTo, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Leave.LeaveTypeId)
+        @Html.DropDownListFor(m => m.Leave.LeaveTypeId, new SelectList(Model.LeaveType, "LeaveTypeId", "LeaveTypeName"), "Select Type Of Leave", new { @class = "form-control" })
+    </div>
+
+    @Html.HiddenFor(m => m.Leave.LeaveId)
+
+    var c = @Model.Leave.LeaveId > 0 ? "Update" : "Save";
+    <button type="submit" class="btn btn-primary">@c</button>
+}
+
